@@ -25,17 +25,17 @@ namespace CargoSample2.Controllers
         public async Task<IActionResult> Index()
         {
             List<EmployeeViewModel> employees = new List<EmployeeViewModel>();
-            using(var client=new HttpClient())
+            using (var client = new HttpClient())
             {
                 client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
                 var result = await client.GetAsync("Employees/GetAllEmployees");
                 if (result.IsSuccessStatusCode)
                 {
-                    employees=await result.Content.ReadAsAsync<List<EmployeeViewModel>>();
+                    employees = await result.Content.ReadAsAsync<List<EmployeeViewModel>>();
                 }
             }
             return View(employees);
-           
+
         }
 
         // GET: EmployeesController/Details/5
@@ -98,7 +98,7 @@ namespace CargoSample2.Controllers
             EmployeeResponses employee = new EmployeeResponses();
             if (ModelState.IsValid)
             {
-                
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
@@ -127,7 +127,7 @@ namespace CargoSample2.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PutAsJsonAsync($"Employees/UpdateEmployee/{employee.EmpId}",employee);
+                    var result = await client.PutAsJsonAsync($"Employees/UpdateEmployee/{employee.EmpId}", employee);
                     if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
                         return RedirectToAction("Index");
@@ -213,41 +213,53 @@ namespace CargoSample2.Controllers
         public async Task<IActionResult> Login(EmployeeLoginModel login)
         {
 
-            if (login.IsApproved == 1)
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var client = new HttpClient())
                 {
-                    using (var client = new HttpClient())
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                    var result = await client.PostAsJsonAsync("Employees/Login", login);
+                    if (result.IsSuccessStatusCode)
                     {
-                        client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                        client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                        var result = await client.PostAsJsonAsync("Employees/Login", login);
-                        if (result.IsSuccessStatusCode)
+                        string token = await result.Content.ReadAsAsync<string>();
+                        if (token != null)
                         {
-                            string token = await result.Content.ReadAsAsync<string>();
-                            HttpContext.Session.SetString("token", token);
-                            return Content("Login successfull");
+                            if (token[token.Length - 1] == '1')
+                            {
+                                token = token.Remove(token.Length - 1, 1);
+                                HttpContext.Session.SetString("token", token);
+                                
+                                return Content("login successfull");
+                            }
+                            else if (token[token.Length - 1] == '0')
+                            {
+                                return Content("need to get verified from admin");
 
-                            //return RedirectToAction("Details", "Employees");
+                            }
+                         
+
                         }
-                        ModelState.AddModelError("", "Invalid Username or Password");
+
+
+                        //return RedirectToAction("Details", "Employees");
                     }
+                    ModelState.AddModelError("", "Invalid Username or Password");
                 }
-                return View(login);
             }
-            else
-            {
-                return Content("you need to get verify from admin");
-
-            }
+            return View(login);
         }
 
-        [HttpPost]
-        public IActionResult LogOut()
-        {
-            HttpContext.Session.Remove("token");
-            return RedirectToAction("Index", "Home");
-        }
     }
+
+    //[HttpPost]
+    //public IActionResult LogOut()
+    //{
+    //    HttpContext.Session.Remove("token");
+    //    return RedirectToAction("Index", "Home");
+    //}
 }
+
+
