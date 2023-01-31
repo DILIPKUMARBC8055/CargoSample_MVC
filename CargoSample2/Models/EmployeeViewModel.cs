@@ -38,5 +38,7 @@ namespace CargoSample2.Models
         [DataType(DataType.Password)]
         [DefaultValue("Empl@123")]
         public string? Password { get; set; }
+       
+        
     }
 }
