@@ -48,9 +48,13 @@ namespace AccessCargoService1.Controllers
             return View(cargo.value);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            CargoViewModel cargoViewModel = new CargoViewModel
+            {
+                cargotype = await this.GetAllCargoTypes()
+            };
+            return View(cargoViewModel);
         }
         [HttpPost]
         public async Task<IActionResult> Create(CargoViewModel cargo)
@@ -151,6 +155,25 @@ namespace AccessCargoService1.Controllers
         //    }
         //    return View();
         //}
+
+        [NonAction]
+        public async Task<List<CargoType>> GetAllCargoTypes()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                //var result = await client.GetAsync($"CargoType/GetCargoTypeById/{id}");
+                var result = await client.GetAsync("CargoType/GetAllCargoTypes");
+                if (result.IsSuccessStatusCode)
+                {
+                    var cargolist = await result.Content.ReadAsAsync<List<CargoType>>();
+                    return cargolist;
+
+                }
+
+            }
+            return null;
+        }
 
     }
 }

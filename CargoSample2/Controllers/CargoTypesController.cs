@@ -21,7 +21,9 @@ namespace SampleThings.Controllers
             _context = context;
         }
 
-        [HttpGet]
+       
+
+                [HttpGet]
         public async Task<IActionResult> Index()
         {
             List<CargoType> cargoTypes = new();
