@@ -7,6 +7,8 @@ namespace CargoSample2.Models
     {
         [Key]
         public int CustId { get; set; }
+
+
         [Required]
         public string UserName { get; set; }
 

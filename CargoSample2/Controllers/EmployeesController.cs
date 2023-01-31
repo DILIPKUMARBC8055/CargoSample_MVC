@@ -1,4 +1,5 @@
 ﻿using CargoSample2.Models;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -211,24 +212,35 @@ namespace CargoSample2.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(EmployeeLoginModel login)
         {
-            if (ModelState.IsValid)
+
+            if (login.IsApproved == 1)
             {
-                using (var client = new HttpClient())
+                if (ModelState.IsValid)
                 {
-                    client.DefaultRequestHeaders.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PostAsJsonAsync("Employees/Login", login);
-                    if (result.IsSuccessStatusCode)
+                    using (var client = new HttpClient())
                     {
-                        string token = await result.Content.ReadAsAsync<string>();
-                        HttpContext.Session.SetString("token", token);
-                        return RedirectToAction("Index", "Employees");
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                        var result = await client.PostAsJsonAsync("Employees/Login", login);
+                        if (result.IsSuccessStatusCode)
+                        {
+                            string token = await result.Content.ReadAsAsync<string>();
+                            HttpContext.Session.SetString("token", token);
+                            return Content("Login successfull");
+
+                            //return RedirectToAction("Details", "Employees");
+                        }
+                        ModelState.AddModelError("", "Invalid Username or Password");
                     }
-                    ModelState.AddModelError("", "Invalid Username or Password");
                 }
+                return View(login);
             }
-            return View(login);
+            else
+            {
+                return Content("you need to get verify from admin");
+
+            }
         }
 
         [HttpPost]
