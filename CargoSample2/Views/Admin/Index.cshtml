@@ -1,0 +1,67 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<AdminViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+
+
+
+    <div class="col-md-5">
+        <div class="col text-end">
+            <a asp-controller="Admin" asp-action="Create" class="btn btn-warning">Register New Admin</a>
+
+        </div>
+        <form asp-controller="Admin" asp-action="index" method="get">
+            <div class="input-group md-form form-control-sm form-2 p1-0">
+                <input type="text" class="form-control my-0 py-1 red-border" placeholder="search" value="" aria-label="Search" name="Adminname" />
+                <div class="input-group-append">
+                    <input type="submit" id="btnSubmit1" value="Search" />
+
+
+                </div>
+
+
+            </div>
+        </form>
+
+
+
+
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                
+
+                    <th>Email</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                       
+
+                        <td>@item.Email</td>
+                        <td>
+                            <a asp-controller="Admin" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
