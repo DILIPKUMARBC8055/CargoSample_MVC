@@ -1,4 +1,5 @@
 ﻿using CargoSample2.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
@@ -192,6 +193,41 @@ namespace CargoSample2.Controllers
             return View(customer);
 
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(CustomerLoginModel login)
+        {
+            if(ModelState.IsValid)
+            {
+                using(var client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                    var result = await client.PostAsJsonAsync("Customers/Login", login);
+                    if(result.IsSuccessStatusCode)
+                    {
+                        string token=await result.Content.ReadAsAsync<string>();
+                        HttpContext.Session.SetString("token", token);
+                        return RedirectToAction("Index","Customers");
+                    }
+                    ModelState.AddModelError("", "Invalid Username or Password");
+                }
+                
+            }
+            return View(login);
+        }
+        [HttpPost]
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Remove("token");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

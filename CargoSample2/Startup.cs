@@ -23,6 +23,11 @@ namespace CargoSample2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(o =>
+            {
+                o.IdleTimeout = TimeSpan.FromMinutes(1);
+
+            });
             services.AddControllersWithViews();
         }
 
@@ -41,6 +46,7 @@ namespace CargoSample2
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 
