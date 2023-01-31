@@ -1,0 +1,28 @@
+﻿@model EmployeeViewModel
+
+@{
+
+    ViewData["Title"] = "Details of Employees";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="row">
+            <div class="co">
+                <h2>List of Employees</h2>
+            </div>
+
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item"><b>UserName</b>@Model.UserName</li>
+            <li class="list-group-item"><b>Name</b>@Model.EmpName</li>
+            
+            <li class="list-group-item"><b>Email</b>@Model.EmpEmail</li>
+            <li class="list-group-item"><b>Phone number</b>@Model.EmpPhNo</li>
+            <li class="list-group-item"><b>IsApproved</b>@Model.IsApproved</li>
+
+        </ul>
+        <a asp-controller="Employees" asp-action="Index" Back to List></a>
+    </div>
+</div>    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+

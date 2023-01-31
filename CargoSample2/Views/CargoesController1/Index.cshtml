@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CargoViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="row">
+            <div class="col">
+                <h2>List Of Cargoes</h2>
+            </div>
+            <div class="col text-end">
+                <a asp-controller="CargoesController1" asp-action="Create" class="btn btn-warning">Create new Cargo</a>
+            </div>
+            <div class="row">
+                <table class="table table-hover">
+                    <thread>
+                    <tr>
+                        <th>CargoId </th>
+                        <th>CargoName </th>
+                        <th>Place </th>
+                        <th>OrderDate </th>
+                        <th>Price </th>
+                        <th>Weight</th>
+                        <th>CargoType</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@item.CargoId</td>
+                                <td>@item.CargoName</td>
+                                <td>@item.Place</td>
+                                <td>@item.OrderDate</td>
+                                <td>@item.Price</td>
+                                <td>@item.Weight</td>
+                                <td>@item.cargotype</td>
+                                
+
+                                <td>
+                                    <a asp-controller="CargoesController1" asp-action="Details" asp-route-id="@item.CargoId">Details</a>
+                                </td>
+                                <td>
+                                    <a asp-controller="CargoesController1" asp-action="Edit" asp-route-id="@item.CargoId">Edit</a>
+                                </td>
+                                <td>
+                                    <a asp-controller="CargoesController1" asp-action="Delete" asp-route-id="@item.CargoId">Delete</a>
+                                </td>
+
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+

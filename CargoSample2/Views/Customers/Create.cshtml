@@ -1,0 +1,62 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model CustomerViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h1>Register a customer</h1>
+
+<form asp-controller="Customers" asp-action="Create" method="post">
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="mb-2">
+                <label asp-for="UserName" class="form-label"></label>
+                <input type="text" asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="CustName" class="form-label"></label>
+                <input type="text" asp-for="CustName" class="form-control" />
+                <span asp-validation-for="CustName"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="CustAddress" class="form-label"></label>
+                <input type="text" asp-for="CustAddress" class="form-control" />
+                <span asp-validation-for="CustAddress"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="CustPhNo" class="form-label"></label>
+                <input type="text" asp-for="CustPhNo" class="form-control" />
+                <span asp-validation-for="CustPhNo"></span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="CustEmail" class="form-label"></label>
+                <input type="text" asp-for="CustEmail" class="form-control" />
+                <span asp-validation-for="CustEmail"></span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="CustPassword" class="form-label"></label>
+                <input type="text" asp-for="CustPassword" class="form-control" />
+                <span asp-validation-for="CustPassword"></span>
+            </div>
+
+
+
+
+
+
+
+            <div class="mt-2" d-grid>
+                <input type="submit" class="btn btn-primary" value="Register" />
+
+            </div>
+        </div>
+    </div>
+</form>
