@@ -9,56 +9,54 @@ using System.Threading.Tasks;
 
 namespace CargoSample2.Controllers
 {
-    public class CustomersController : Controller
+    public class AdminController : Controller
     {
         public readonly IConfiguration _configuration;
-        public CustomersController(IConfiguration configuration)
+        public AdminController(IConfiguration configuration)
         {
-            _configuration = configuration;
-        }
 
+            _configuration= configuration;
+        }
         public async Task<IActionResult> Index()
         {
-            List<CustomerViewModel> customers = new();
+            List<AdminViewModel> admins = new();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                var result = await client.GetAsync("Customers/GetAllCustomers");
+                var result = await client.GetAsync("Admins/GetAllAdmin");
                 if (result.IsSuccessStatusCode)
                 {
-                    customers = await result.Content.ReadAsAsync<List<CustomerViewModel>>();
+                    admins = await result.Content.ReadAsAsync<List<AdminViewModel>>();
                 }
 
             }
-            return View(customers);
-        }
+            return View(admins);
 
+        }
 
         public async Task<IActionResult> Details(int id)
         {
-            CustomerViewModel customer = null;
+            AdminViewModel admin = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                var result = await client.GetAsync($"Customers/GetAllCustomers");
+                var result = await client.GetAsync("Admins/GetAllAdmin");
                 if (result.IsSuccessStatusCode)
                 {
-                    var customerlist = await result.Content.ReadAsAsync<List<CustomerViewModel>>();
-                    customer=customerlist.Where(c=>c.CustId==id).FirstOrDefault();
-                    if (customer != null)
+                    var Adminlist = await result.Content.ReadAsAsync<List<AdminViewModel>>();
+                    admin = Adminlist.Where(c => c.Id == id).FirstOrDefault();
+                    if (admin != null)
                     {
-                        return View(customer);
+                        return View(admin);
                     }
                 }
 
             }
-        
+
             return null;
 
-
-
-
         }
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -67,14 +65,14 @@ namespace CargoSample2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerViewModel customer)
+        public async Task<IActionResult> Create(AdminViewModel admin)
         {
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PostAsJsonAsync($"Customers/Create", customer);
+                    var result = await client.PostAsJsonAsync($"Admins/CreateAdmin", admin);
                     if (result.StatusCode == System.Net.HttpStatusCode.Created)
                     {
                         return RedirectToAction("Index");
@@ -86,35 +84,36 @@ namespace CargoSample2.Controllers
                 }
 
             }
-            return View(customer);
+            return View(admin);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            CustomerResponses customer = new CustomerResponses();
+            AdminResponses admin = new AdminResponses();
             if (ModelState.IsValid)
             {
-                
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.GetAsync($"Customers/GetCustomerById/{id}");
+                    var result = await client.GetAsync($"Admins/GetAdminById/{id}");
                     if (result.IsSuccessStatusCode)
                     {
-                        customer = await result.Content.ReadAsAsync<CustomerResponses>();
-                        return View(customer.value);
+                        admin = await result.Content.ReadAsAsync<AdminResponses>();
+                        return View(admin.value);
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Customer does not exist");
+                        ModelState.AddModelError("", "Admin does not exist");
                     }
                 }
             }
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Edit(CustomerViewModel customer)
+        public async Task<IActionResult> Edit(AdminViewModel admin)
         {
 
             if (ModelState.IsValid)
@@ -122,7 +121,7 @@ namespace CargoSample2.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PutAsJsonAsync($"Customers/UpdateCustomer/{customer.CustId}",customer);
+                    var result = await client.PutAsJsonAsync($"Admins/UpdateAdmin/{admin.Id}", admin);
                     if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
                         return RedirectToAction("Index");
@@ -134,46 +133,48 @@ namespace CargoSample2.Controllers
                     }
                 }
             }
-            return View(customer);
+            return View(admin);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             if (ModelState.IsValid)
             {
-                CustomerViewModel customer = new();
+                AdminViewModel admin = new();
 
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.GetAsync("Customers/GetAllCustomers");
+                    var result = await client.GetAsync("Admins/GetAllAdmin");
                     if (result.IsSuccessStatusCode)
                     {
-                        var customerList = await result.Content.ReadAsAsync<List<CustomerViewModel>>();
-                        customer=customerList.Where(c=>c.CustId==id).FirstOrDefault();
-                        if (customer != null)
+                        var adminList = await result.Content.ReadAsAsync<List<AdminViewModel>>();
+                        admin = adminList.Where(c => c.Id == id).FirstOrDefault();
+                        if (admin != null)
                         {
-                            return View(customer);
+                            return View(admin);
                         }
                         else
                         {
-                            ModelState.AddModelError("", "Customer doesn't exist");
+                            ModelState.AddModelError("", "Admin doesn't exist");
                         }
-                    }                 
+                    }
                 }
-                
+
             }
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Delete(CustomerViewModel customer)
+        public async Task<IActionResult> Delete(AdminViewModel admin)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                var result = await client.DeleteAsync($"Customers/DeleteCustomer/{customer.CustId}");
-                if(result.IsSuccessStatusCode)
+                var result = await client.DeleteAsync($"Admins/DeleteAdmin/{admin.Id}");
+                if (result.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
@@ -183,7 +184,7 @@ namespace CargoSample2.Controllers
 
                 }
             }
-            return View(customer);
+            return View(admin);
 
 
         }
@@ -193,26 +194,27 @@ namespace CargoSample2.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Login(CustomerLoginModel login)
+        public async Task<IActionResult> Login(AdminViewModel login)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                using(var client = new HttpClient())
+                using (var client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PostAsJsonAsync("Customers/Login", login);
-                    if(result.IsSuccessStatusCode)
+                    var result = await client.PostAsJsonAsync("Admins/Login", login);
+                    if (result.IsSuccessStatusCode)
                     {
-                        string token=await result.Content.ReadAsAsync<string>();
+                        string token = await result.Content.ReadAsAsync<string>();
                         HttpContext.Session.SetString("token", token);
-                        return RedirectToAction("Index","Customers");
+                        return RedirectToAction("Index", "Admin");
                     }
                     ModelState.AddModelError("", "Invalid Username or Password");
                 }
-                
+
             }
             return View(login);
         }
@@ -222,5 +224,7 @@ namespace CargoSample2.Controllers
             HttpContext.Session.Remove("token");
             return RedirectToAction("Index", "Home");
         }
+
+
     }
 }

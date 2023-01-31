@@ -1,0 +1,26 @@
+﻿@model AdminViewModel
+
+@{
+
+    ViewData["Title"] = "Details";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="row">
+            <div class="co">
+                <h2>List of Admins</h2>
+            </div>
+
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item"><b>UserName</b>@Model.UserName</li>
+            <li class="list-group-item"><b>Name</b>@Model.Name</li>
+            <li class="list-group-item"><b>Address</b>@Model.Email</li>
+            
+
+        </ul>
+        <a asp-controller="Admin" asp-action="Index" Back to List></a>
+    </div>
+</div>
+

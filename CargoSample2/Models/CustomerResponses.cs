@@ -24,4 +24,10 @@
         public string result { get; set; }
         public CityViewModel value { get; set; }
     }
+
+    public class AdminResponses
+    {
+        public string result { get; set; }
+        public AdminViewModel value { get; set; }
+    }
 }
