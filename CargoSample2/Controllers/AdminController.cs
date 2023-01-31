@@ -196,7 +196,7 @@ namespace CargoSample2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(AdminViewModel login)
+        public async Task<IActionResult> Login(AdminLoginModel login)
         {
             if (ModelState.IsValid)
             {
