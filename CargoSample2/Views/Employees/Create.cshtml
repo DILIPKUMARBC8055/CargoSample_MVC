@@ -30,7 +30,7 @@
                 <input type="text" asp-for="EmpPhNo" class="form-control" />
                 <span asp-validation-for="EmpPhNo"></span>
             </div>
-
+           
 
             <div class="mb-2">
                 <label asp-for="EmpEmail" class="form-label"></label>
@@ -43,15 +43,12 @@
                 <span asp-validation-for="Password"></span>
             </div>
 
-            @*   <div class="mb-2">
-            <label asp-for="IsApproved" class="form-label"></label>
-            <input type="text" asp-for="IsApproved" class="form-control" />
-            <span asp-validation-for="IsApproved"></span>
-            </div>*@
+            <input type="hidden" asp-for="IsApproved" value="-1" />
 
 
 
 
+            @Html.Partial("_PartialGetCargoById");
 
 
 
