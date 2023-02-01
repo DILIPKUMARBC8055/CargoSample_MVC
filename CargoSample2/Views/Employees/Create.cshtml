@@ -9,7 +9,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Register a Employee</h1>
+
 
 <form asp-controller="Employees" asp-action="Create" method="post">
     <div class="row">
@@ -42,13 +42,15 @@
                 <input type="text" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password"></span>
             </div>
-
            @* <input type="hidden" asp-for="IsApproved" value="-1" />*@
 
 
+            @*<input type="hidden" asp-for="IsApproved" value="-1" />*@
 
 
-            @Html.Partial("_PartialGetCargoById");
+
+@*
+            @Html.Partial("_PartialGetCargoById");*@
 
 
 

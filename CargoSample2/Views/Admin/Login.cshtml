@@ -8,13 +8,15 @@
         /* Your CSS rules here */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(https://wallpapercave.com/dwp1x/wp7634275.jpg);
+            
         }
 
         #container1 {
             max-width: 600px;
             margin: 0 auto;
             text-align: center;
+           
         }
 
         #header1 {
@@ -88,12 +90,10 @@
    
 
     <body>
-        <div id="container1">
-            <div id="header1">
-                <img src="https://p.kindpng.com/picc/s/235-2350650_cg-user-login-user-login-icon-png-transparent.png" alt="Brand Logo">
-
-            </div>
-            <div class="form-container">
+        <br />
+        <br />
+        <div id="container1" >
+            <div class="form-container" >
 
                 <h2>Admin Login</h2>
                 <div asp-validation-summary="All" class="text-danger"></div>
@@ -108,8 +108,8 @@
                     <span asp-validation-for="Password"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit">Login</button>
-                    <a href="#" id="forgot-password">Forgot password?</a>
+                    <input type="submit" class="btn btn-primary" value="Login">
+                    <a asp-controller="Admin" asp-action="Create" style="color:darkblue;">Register</a>
                 </div>
 
                

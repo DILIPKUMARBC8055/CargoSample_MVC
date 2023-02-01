@@ -57,6 +57,11 @@ namespace CargoSample2.Controllers
 
         }
 
+        public async Task<IActionResult> Dashboard()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
