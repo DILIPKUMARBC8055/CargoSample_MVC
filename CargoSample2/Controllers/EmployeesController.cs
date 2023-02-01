@@ -20,6 +20,8 @@ namespace CargoSample2.Controllers
             _configuration = configuration;
         }
 
+       
+
 
         // GET: EmployeesController
         public async Task<IActionResult> Index()

@@ -59,3 +59,11 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{
+
+        <!-- Add your scripts here -->
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

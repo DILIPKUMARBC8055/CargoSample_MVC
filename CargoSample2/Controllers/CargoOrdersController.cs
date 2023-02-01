@@ -12,6 +12,8 @@ namespace CargoSample2.Controllers
     public class CargoOrdersController : Controller
     {
         public readonly IConfiguration _configuration;
+
+
         public CargoOrdersController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -58,21 +60,21 @@ namespace CargoSample2.Controllers
                     var cargolist = await result.Content.ReadAsAsync<List<CargoType>>();
                     CargoType cargoType = cargolist.Where(c => c.Id == CargoTypeId).FirstOrDefault();
                     double price = 0;
-                    if (Weight > double.Parse(cargoType.Weight))
+                    if (Weight > cargoType.Weight)
                     {
-                        double extraWeight = double.Parse(cargoType.Weight) - Weight;
-                        price = double.Parse(cargoType.Price) * double.Parse(cargoType.Weight);
-                        price += extraWeight * double.Parse(cargoType.ExtraPrice) * double.Parse(cargoType.ExtraWeight);
+                        double extraWeight = Weight - cargoType.Weight;
+                        price = cargoType.Price * cargoType.Weight;
+                        price += extraWeight * cargoType.ExtraPrice * cargoType.ExtraWeight;
 
 
                     }
                     else
                     {
-                        price = double.Parse(cargoType.Price) * Weight;
+                        price = cargoType.Price * Weight;
 
                     }
                     ViewBag.Price = price;
-                    return PartialView("_CalculatePrice");
+                    return Json(price);
 
 
 
@@ -169,6 +171,7 @@ namespace CargoSample2.Controllers
             if (ModelState.IsValid)
             {
                 cargoOrder.CargoStatusId = "1";
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);

@@ -5,7 +5,7 @@
 }
 
 <h1>Details</h1>
-
+@*
 <div>
     <h4>CargoOrderViewModel</h4>
     <hr />
@@ -93,4 +93,52 @@
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
+</div>
+*@
+
+
+<div class="container">
+    <h4 class="text-center">Cargo Order Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Order ID</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.OrderId)</dd>
+
+        <dt class="col-sm-3">Order Date</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.OrderDate)</dd>
+
+        <dt class="col-sm-3">Receiver Name</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.ReceiverName)</dd>
+
+        <dt class="col-sm-3">Receiver Email</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.ReceiverEmail)</dd>
+
+        <dt class="col-sm-3">Receiver Phone No.</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.ReceiverPhoneNo)</dd>
+
+        <dt class="col-sm-3">Accepted</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.IsAccepted)</dd>
+
+        <dt class="col-sm-3">Cargo Status</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CargoStatusId)</dd>
+
+        <dt class="col-sm-3">Customer ID</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CustId)</dd>
+
+        <dt class="col-sm-3">Cargo Type</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CargoTypeId)</dd>
+
+        <dt class="col-sm-3">City</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CityId)</dd>
+
+        <dt class="col-sm-3">Weight</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Weight)</dd>
+
+        <dt class="col-sm-3">Price</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
+    </dl>
+</div>
+<div class="text-center mt-4">
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }, new { @class="btn btn-primary" })
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
 </div>

@@ -4,201 +4,197 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="container">
 
-<h4>CargoOrderViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
 
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h1>Create</h1>
 
-          @*  <div class="form-group">
+    <h4>CargoOrderViewModel</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @*  <div class="form-group">
                 <label asp-for="OrderDate" class="control-label"></label>
                 <input asp-for="OrderDate" class="form-control" />
                 <span asp-validation-for="OrderDate" class="text-danger"></span>
-            </div>*@
+                </div>*@
 
-            <div class="form-group">
-                <label asp-for="OrderId" class="control-label"></label>
-                <input asp-for="OrderId" class="form-control" />
-                <span asp-validation-for="OrderId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReceiverName" class="control-label"></label>
-                <input asp-for="ReceiverName" class="form-control" />
-                <span asp-validation-for="ReceiverName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReceiverEmail" class="control-label"></label>
-                <input asp-for="ReceiverEmail" class="form-control" />
-                <span asp-validation-for="ReceiverEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReceiverPhoneNo" class="control-label"></label>
-                <input asp-for="ReceiverPhoneNo" class="form-control" />
-                <span asp-validation-for="ReceiverPhoneNo" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="OrderId" class="control-label"></label>
+                    <input asp-for="OrderId" class="form-control" />
+                    <span asp-validation-for="OrderId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReceiverName" class="control-label"></label>
+                    <input asp-for="ReceiverName" class="form-control" />
+                    <span asp-validation-for="ReceiverName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReceiverEmail" class="control-label"></label>
+                    <input asp-for="ReceiverEmail" class="form-control" />
+                    <span asp-validation-for="ReceiverEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReceiverPhoneNo" class="control-label"></label>
+                    <input asp-for="ReceiverPhoneNo" class="form-control" />
+                    <span asp-validation-for="ReceiverPhoneNo" class="text-danger"></span>
+                </div>
 
-           @* <div class="form-group form-check">
+                @* <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAccepted" /> @Html.DisplayNameFor(model => model.IsAccepted)
+                <input class="form-check-input" asp-for="IsAccepted" /> @Html.DisplayNameFor(model => model.IsAccepted)
                 </label>
-            </div>*@
+                </div>*@
 
-            @* <div class="form-group">
-            <label asp-for="CargoStatusId" class="control-label"></label>
-            <input asp-for="CargoStatusId" class="form-control" />
-            <span asp-validation-for="CargoStatusId" class="text-danger"></span>
-            </div>*@
+                @* <div class="form-group">
+                <label asp-for="CargoStatusId" class="control-label"></label>
+                <input asp-for="CargoStatusId" class="form-control" />
+                <span asp-validation-for="CargoStatusId" class="text-danger"></span>
+                </div>*@
 
-            @* <div class="mb-2">
-            <label asp-for="CargoStatusId" class="form-label">Cargo Type</label>
-            <select asp-for="CargoStatusId" asp-items="@(new SelectList(Model.CargoStatus,"StatusId","StatusName"))">
-            <option value="">--Select--</option>
-            </select>
-            <span asp-validation-for="CargoStatusId"></span>
-            </div>*@
-
-
-
-            <div class="form-group">
-                <label asp-for="CustId" class="control-label"></label>
-                <input asp-for="CustId" class="form-control" />
-                <span asp-validation-for="CustId" class="text-danger"></span>
-            </div>
-
-            @*<div class="form-group">
-            <label asp-for="CargoTypeId" class="control-label"></label>
-            <input asp-for="CargoTypeId" class="form-control" />
-            <span asp-validation-for="CargoTypeId" class="text-danger"></span>
-            </div>*@
-
-
-
-            <div class="mb-2">
-                <label asp-for="CargoTypeId" class="form-label" id="CargoId">Cargo Type</label>
-                <select asp-for="CargoTypeId" asp-items="@(new SelectList(Model.CargoType,"Id","Name"))" class="form-control" id="CargoTypeId">
-                    <option value="">--Select--</option>
+                @* <div class="mb-2">
+                <label asp-for="CargoStatusId" class="form-label">Cargo Type</label>
+                <select asp-for="CargoStatusId" asp-items="@(new SelectList(Model.CargoStatus,"StatusId","StatusName"))">
+                <option value="">--Select--</option>
                 </select>
-                <span asp-validation-for="CargoTypeId"></span>
-            </div>
-
-            <div id="cargo-properties"></div>
+                <span asp-validation-for="CargoStatusId"></span>
+                </div>*@
 
 
 
+                <div class="form-group">
+                    <label asp-for="CustId" class="control-label"></label>
+                    <input asp-for="CustId" class="form-control" />
+                    <span asp-validation-for="CustId" class="text-danger"></span>
+                </div>
 
-            @*  <div class="form-group">
-            <label asp-for="CityId" class="control-label"></label>
-            <input asp-for="CityId" class="form-control" />
-            <span asp-validation-for="CityId" class="text-danger"></span>
-            </div>*@
-
-
-
-            <div class="mb-2">
-                <label asp-for="CityId" class="form-label">City</label>
-                <select asp-for="CityId" asp-items="@(new SelectList(Model.City,"Id","CityName"))">
-                    <option value="">--Select--</option>
-                </select>
-                <span asp-validation-for="CityId"></span>
-            </div>
+                @*<div class="form-group">
+                <label asp-for="CargoTypeId" class="control-label"></label>
+                <input asp-for="CargoTypeId" class="form-control" />
+                <span asp-validation-for="CargoTypeId" class="text-danger"></span>
+                </div>*@
 
 
-            <div class="form-group">
-                <label asp-for="Weight" id="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
 
-            </div>
+                <div class="mb-2">
+                    <label asp-for="CargoTypeId" class="form-label">Cargo Type</label>
+                    <select asp-for="CargoTypeId" asp-items="@(new SelectList(Model.CargoType,"Id","Name"))" class="form-control" id="CargoTypeId">
+                        <option value="">--Select--</option>
+                    </select>
+                    @* <span asp-validation-for="CargoTypeId"></span>*@
+                </div>
+
+                <div id="cargo-properties"></div>
 
 
 
 
-           @* <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" id="Price" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>*@
+                @*  <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <input asp-for="CityId" class="form-control" />
+                <span asp-validation-for="CityId" class="text-danger"></span>
+                </div>*@
 
 
-            <button type="submit" id="calculateButton" class="btn btn-light text-success btn-lg btn-block">Gernerate Price</button>
+
+                <div class="mb-2">
+                    <label asp-for="CityId" class="form-label">City</label>
+                    <select asp-for="CityId" asp-items="@(new SelectList(Model.City,"Id","CityName"))">
+                        <option value="">--Select--</option>
+                    </select>
+                    <span asp-validation-for="CityId"></span>
+                </div>
 
 
-            <div id="calculateButton"></div>
+                <div class="form-group">
+                    <label asp-for="Weight" class="control-label"></label>
+                    <input asp-for="Weight" class="form-control" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+                </div>
 
-        </form>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control " />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+
+
+
+
+                <input type="button" id="btnCalculate" class="btn btn-light text-success btn-lg btn-block" value="Generate Price" />
+
+                <div id="Price">
+                </div>
+                @*<div id="calculateButton"></div>*@
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </form>
+
+
+        </div>
+
 
 
     </div>
 
 
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
 </div>
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{
+
+        <!-- Add your scripts here -->
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        <script>
-            $(document).ready(function () {
-                $("#CargoTypeId").change(function () {
-                    var selectedCargoType = $(this).val();
-
-                    $.ajax({
-                        type: "GET",
-                        url: "/CargoOrders/GetCargoById",
-                        data: { id: selectedCargoType },
-                        success: function (data) {
-                            //console.log(data);
-                            //console.log(document.getElementById("cargo-properties").innerHTML);
-                            $("#cargo-properties").html(data);
-                        }
-                    });
-
-                });
-
-
-            });
-
-
-            $(document).ready(function () {
-
-                $("#calculateButton").click(function () {
-                    var wght = $("#Weight").val();
-                    var Id = $("#CargoId").val();
-
-                    $.ajax({
-                        type: "GET",
-                        url: "/CargoOrders/CalculatePrice",
-                        data: { id: ID, Weight: wght },
-                        success: function (data) {
-                            //console.log(data);
-                            //console.log(document.getElementById("cargo-properties").innerHTML);
-                            $("#Price").html(data);
-                        }
-                    });
-                });
-            });
-
-
-
-
-
-
-
-
-
-        </script>
     }
+    <script>
+        $(document).ready(function () {
+            $("#CargoTypeId").change(function () {
+                var selectedCargoType = $(this).val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/CargoOrders/GetCargoById",
+                    data: { id: selectedCargoType },
+                    success: function (data) {
+
+                        $("#cargo-properties").html(data);
+                    }
+                });
+
+            });
+
+
+            $("#btnCalculate").click(function () {
+                var wght = $("#Weight").val();
+                var Id = $("#CargoTypeId").val();
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/CargoOrders/CalculatePrice",
+                    data: { CargoTypeId: Id, Weight: wght },
+                    success: function (data) {
+                        console.log(data);
+
+                        $("#Price").val(data);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
 }
