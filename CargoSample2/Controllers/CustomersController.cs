@@ -17,36 +17,6 @@ namespace CargoSample2.Controllers
             _configuration = configuration;
         }
 
-
-
-
-        [HttpGet]
-        [Route("Customer/GetCustomers/{Name?}")]
-        public async Task<IActionResult> GetCustomers(string Name)
-        {
-
-
-            List<CustomerViewModel> customers = new List<CustomerViewModel>();
-            using (var client = new HttpClient())
-
-            {
-                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                var result = await client.GetAsync("Customers/GetAllCustomers");
-                if (result.IsSuccessStatusCode)
-                {
-                    customers = await result.Content.ReadAsAsync<List<CustomerViewModel>>();
-                    if (string.IsNullOrEmpty(Name))
-                    {
-                        return View(customers);
-                    }
-                    List<CustomerViewModel> customer = customers.Where(c => c.CustName.Contains(Name)).ToList();
-
-                    return View(customer);
-
-                }
-            }
-            return View();
-        }
         public async Task<IActionResult> Index()
         {
             List<CustomerViewModel> customers = new();
@@ -93,7 +63,7 @@ namespace CargoSample2.Controllers
         public async Task<IActionResult> Create()
         {
 
-
+           
             return View();
 
         }

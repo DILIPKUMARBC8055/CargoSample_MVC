@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography.Xml;
 
 namespace CargoSample2.Models
 {
@@ -12,18 +11,18 @@ namespace CargoSample2.Models
         public string Name { get; set; }
         [Required]
         //Weight in Kgs
-        public double Weight { get; set; }
+        public string Weight { get; set; }
         [Required]
         [Range(1, double.MaxValue)]
         [DataType(DataType.Currency)]
         //Original price
-        public double Price { get; set; }
-        public double ExtraWeight { get; set; }
+        public string Price { get; set; }
+        public string ExtraWeight { get; set; }
 
         [Required]
         [Range(1, double.MaxValue)]
         [DataType(DataType.Currency)]
         //Extra charges for additional weight
-        public double ExtraPrice { get; set; }
+        public string ExtraPrice { get; set; }
     }
 }

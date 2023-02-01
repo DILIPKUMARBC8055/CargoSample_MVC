@@ -12,8 +12,6 @@ namespace CargoSample2.Controllers
     public class CargoOrdersController : Controller
     {
         public readonly IConfiguration _configuration;
-
-
         public CargoOrdersController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -48,7 +46,7 @@ namespace CargoSample2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CalculatePrice(int CargoTypeId, double Weight)
+        public async Task<IActionResult> CalculatePrice(int id,double Weight)
         {
             using (var client = new HttpClient())
             {
@@ -58,23 +56,24 @@ namespace CargoSample2.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     var cargolist = await result.Content.ReadAsAsync<List<CargoType>>();
-                    CargoType cargoType = cargolist.Where(c => c.Id == CargoTypeId).FirstOrDefault();
+                    CargoType cargoType = cargolist.Where(c => c.Id == id).FirstOrDefault();
                     double price = 0;
-                    if (Weight > cargoType.Weight)
+                    if (Weight > double.Parse(cargoType.Weight))
                     {
-                        double extraWeight = Weight - cargoType.Weight;
-                        price = cargoType.Price * cargoType.Weight;
-                        price += extraWeight * cargoType.ExtraPrice * cargoType.ExtraWeight;
+                        double extraWeight = double.Parse(cargoType.Weight) - Weight;
+                        price = double.Parse(cargoType.Price) * double.Parse(cargoType.Weight);
+                        price += extraWeight * double.Parse(cargoType.ExtraPrice) * double.Parse(cargoType.ExtraWeight);
 
 
                     }
                     else
                     {
-                        price = cargoType.Price * Weight;
+                        price = double.Parse(cargoType.Price) * Weight ;
 
                     }
                     ViewBag.Price = price;
-                    return Json(price);
+                    return PartialView("_CalculatePrice");
+
 
 
 
@@ -171,7 +170,6 @@ namespace CargoSample2.Controllers
             if (ModelState.IsValid)
             {
                 cargoOrder.CargoStatusId = "1";
-
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
