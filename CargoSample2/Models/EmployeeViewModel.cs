@@ -25,9 +25,8 @@ namespace CargoSample2.Models
         [DataType(DataType.Password)]
         [DefaultValue("Empl@123")]
         public string? Password { get; set; }
-        [Required]
-        [DefaultValue(-1)]
-        public int IsApproved { get; set; }
+       // [Required]
+      
     }
 
     public class EmployeeLoginModel
@@ -38,7 +37,7 @@ namespace CargoSample2.Models
         [DataType(DataType.Password)]
         [DefaultValue("Empl@123")]
         public string? Password { get; set; }
-       
-        
+        [DefaultValue(-1)]
+        public int IsApproved { get; set; }
     }
 }

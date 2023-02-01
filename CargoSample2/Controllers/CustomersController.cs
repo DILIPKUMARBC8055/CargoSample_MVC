@@ -44,7 +44,7 @@ namespace CargoSample2.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     var customerlist = await result.Content.ReadAsAsync<List<CustomerViewModel>>();
-                    customer=customerlist.Where(c=>c.CustId==id).FirstOrDefault();
+                    customer = customerlist.Where(c => c.CustId == id).FirstOrDefault();
                     if (customer != null)
                     {
                         return View(customer);
@@ -52,7 +52,7 @@ namespace CargoSample2.Controllers
                 }
 
             }
-        
+
             return null;
 
 
@@ -62,6 +62,8 @@ namespace CargoSample2.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+
+           
             return View();
 
         }
@@ -95,7 +97,7 @@ namespace CargoSample2.Controllers
             CustomerResponses customer = new CustomerResponses();
             if (ModelState.IsValid)
             {
-                
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
@@ -122,7 +124,7 @@ namespace CargoSample2.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PutAsJsonAsync($"Customers/UpdateCustomer/{customer.CustId}",customer);
+                    var result = await client.PutAsJsonAsync($"Customers/UpdateCustomer/{customer.CustId}", customer);
                     if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
                         return RedirectToAction("Index");
@@ -151,7 +153,7 @@ namespace CargoSample2.Controllers
                     if (result.IsSuccessStatusCode)
                     {
                         var customerList = await result.Content.ReadAsAsync<List<CustomerViewModel>>();
-                        customer=customerList.Where(c=>c.CustId==id).FirstOrDefault();
+                        customer = customerList.Where(c => c.CustId == id).FirstOrDefault();
                         if (customer != null)
                         {
                             return View(customer);
@@ -160,9 +162,9 @@ namespace CargoSample2.Controllers
                         {
                             ModelState.AddModelError("", "Customer doesn't exist");
                         }
-                    }                 
+                    }
                 }
-                
+
             }
             return View();
         }
@@ -173,7 +175,7 @@ namespace CargoSample2.Controllers
             {
                 client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
                 var result = await client.DeleteAsync($"Customers/DeleteCustomer/{customer.CustId}");
-                if(result.IsSuccessStatusCode)
+                if (result.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
@@ -196,23 +198,25 @@ namespace CargoSample2.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(CustomerLoginModel login)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                using(var client = new HttpClient())
+                using (var client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
                     var result = await client.PostAsJsonAsync("Customers/Login", login);
-                    if(result.IsSuccessStatusCode)
+                    if (result.IsSuccessStatusCode)
                     {
-                        string token=await result.Content.ReadAsAsync<string>();
+                        string token = await result.Content.ReadAsAsync<string>();
                         HttpContext.Session.SetString("token", token);
-                        return RedirectToAction("Index","Customers");
+                        return Content("Customer login successfull");
+
+                        // return RedirectToAction("Index","Customers");
                     }
                     ModelState.AddModelError("", "Invalid Username or Password");
                 }
-                
+
             }
             return View(login);
         }
@@ -221,6 +225,24 @@ namespace CargoSample2.Controllers
         {
             HttpContext.Session.Remove("token");
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<List<CargoType>> GetAllCargoTypes()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+                //var result = await client.GetAsync($"CargoType/GetCargoTypeById/{id}");
+                var result = await client.GetAsync("CargoType/GetAllCargoTypes");
+                if (result.IsSuccessStatusCode)
+                {
+                    var cargolist = await result.Content.ReadAsAsync<List<CargoType>>();
+                    return cargolist;
+
+                }
+
+            }
+            return null;
         }
     }
 }

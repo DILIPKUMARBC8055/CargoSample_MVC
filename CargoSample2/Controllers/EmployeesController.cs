@@ -1,4 +1,5 @@
 ﻿using CargoSample2.Models;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,17 +25,17 @@ namespace CargoSample2.Controllers
         public async Task<IActionResult> Index()
         {
             List<EmployeeViewModel> employees = new List<EmployeeViewModel>();
-            using(var client=new HttpClient())
+            using (var client = new HttpClient())
             {
                 client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
                 var result = await client.GetAsync("Employees/GetAllEmployees");
                 if (result.IsSuccessStatusCode)
                 {
-                    employees=await result.Content.ReadAsAsync<List<EmployeeViewModel>>();
+                    employees = await result.Content.ReadAsAsync<List<EmployeeViewModel>>();
                 }
             }
             return View(employees);
-           
+
         }
 
         // GET: EmployeesController/Details/5
@@ -97,7 +98,7 @@ namespace CargoSample2.Controllers
             EmployeeResponses employee = new EmployeeResponses();
             if (ModelState.IsValid)
             {
-                
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
@@ -126,7 +127,7 @@ namespace CargoSample2.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
-                    var result = await client.PutAsJsonAsync($"Employees/UpdateEmployee/{employee.EmpId}",employee);
+                    var result = await client.PutAsJsonAsync($"Employees/UpdateEmployee/{employee.EmpId}", employee);
                     if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
                         return RedirectToAction("Index");
@@ -211,6 +212,8 @@ namespace CargoSample2.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(EmployeeLoginModel login)
         {
+
+
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
@@ -222,8 +225,26 @@ namespace CargoSample2.Controllers
                     if (result.IsSuccessStatusCode)
                     {
                         string token = await result.Content.ReadAsAsync<string>();
-                        HttpContext.Session.SetString("token", token);
-                        return RedirectToAction("Index", "Employees");
+                        if (token != null)
+                        {
+                            if (token[token.Length - 1] == '1')
+                            {
+                                token = token.Remove(token.Length - 1, 1);
+                                HttpContext.Session.SetString("token", token);
+                                
+                                return Content("login successfull");
+                            }
+                            else if (token[token.Length - 1] == '0')
+                            {
+                                ModelState.AddModelError("", "Admin yet to verify you account");
+                                return View(login);
+                            }
+                         
+
+                        }
+
+
+                        //return RedirectToAction("Details", "Employees");
                     }
                     ModelState.AddModelError("", "Invalid Username or Password");
                 }
@@ -231,11 +252,14 @@ namespace CargoSample2.Controllers
             return View(login);
         }
 
-        [HttpPost]
-        public IActionResult LogOut()
-        {
-            HttpContext.Session.Remove("token");
-            return RedirectToAction("Index", "Home");
-        }
     }
+
+    //[HttpPost]
+    //public IActionResult LogOut()
+    //{
+    //    HttpContext.Session.Remove("token");
+    //    return RedirectToAction("Index", "Home");
+    //}
 }
+
+

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace CargoSample2.Models
 {
@@ -16,7 +17,7 @@ namespace CargoSample2.Models
         [Required]
         public double Price { get; set; }
         public double Weight { get; set; }
-        public CargoType cargotype { get; set; }
+        public List<CargoType> cargotype { get; set; }
         public int Id { get; set; }
 
     }
