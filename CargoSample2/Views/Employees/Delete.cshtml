@@ -11,48 +11,57 @@
     <h4>EmployeeViewModel</h4>
     <hr />
     <dl class="row">
-        
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EmpName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EmpName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EmpPhNo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EmpPhNo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EmpEmail)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EmpEmail)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Password)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Password)
         </dd>
-       @* <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsApproved)
+        @* <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.IsApproved)
         </dt>*@
         @*<dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsApproved)
+        @Html.DisplayFor(model => model.IsApproved)
         </dd>*@
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="EmpId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
+
+@section Scripts {
+    @{
+
+        <!-- Add your scripts here -->
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
