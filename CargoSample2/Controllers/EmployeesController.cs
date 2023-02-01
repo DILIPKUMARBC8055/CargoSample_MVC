@@ -236,8 +236,8 @@ namespace CargoSample2.Controllers
                             }
                             else if (token[token.Length - 1] == '0')
                             {
-                                return Content("need to get verified from admin");
-
+                                ModelState.AddModelError("", "Admin yet to verify you account");
+                                return View(login);
                             }
                          
 
