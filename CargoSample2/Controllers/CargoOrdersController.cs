@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 
 namespace CargoSample2.Controllers
@@ -37,12 +38,72 @@ namespace CargoSample2.Controllers
         {
             CargoOrderViewModel cargo = new CargoOrderViewModel
             {
-               CargoStatus=await this.GetStatus(),
+                CargoStatus = await this.GetStatus(),
                 CargoType = await this.GetAllCargoTypes(),
                 City = await this.GetCities()
             };
             return View(cargo);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CalculatePrice(int id,double Weight)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+
+                var result = await client.GetAsync("CargoType/GetAllCargoTypes");
+                if (result.IsSuccessStatusCode)
+                {
+                    var cargolist = await result.Content.ReadAsAsync<List<CargoType>>();
+                    CargoType cargoType = cargolist.Where(c => c.Id == id).FirstOrDefault();
+                    double price = 0;
+                    if (Weight > double.Parse(cargoType.Weight))
+                    {
+                        double extraWeight = double.Parse(cargoType.Weight) - Weight;
+                        price = double.Parse(cargoType.Price) * double.Parse(cargoType.Weight);
+                        price += extraWeight * double.Parse(cargoType.ExtraPrice) * double.Parse(cargoType.ExtraWeight);
+
+
+                    }
+                    else
+                    {
+                        price = double.Parse(cargoType.Price) * Weight ;
+
+                    }
+                    ViewBag.Price = price;
+                    return PartialView("_CalculatePrice");
+
+
+
+
+                }
+            }
+            return View();
+        }
+
+
+        public async Task<IActionResult> GetCargoById(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new System.Uri(_configuration["ApiUrl:api"]);
+
+                var result = await client.GetAsync("CargoType/GetAllCargoTypes");
+                if (result.IsSuccessStatusCode)
+                {
+                    var cargolist = await result.Content.ReadAsAsync<List<CargoType>>();
+                    CargoType cargoType = cargolist.Where(c => c.Id == id).FirstOrDefault();
+                    return PartialView("_PartialGetCargoById", cargoType);
+
+
+                }
+
+            }
+            return null;
+
+        }
+
         [NonAction]
 
         public async Task<List<CargoStatusViewModel>> GetStatus()
