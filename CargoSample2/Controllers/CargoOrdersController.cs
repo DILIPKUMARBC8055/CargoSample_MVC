@@ -46,7 +46,7 @@ namespace CargoSample2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CalculatePrice(int id,double Weight)
+        public async Task<IActionResult> CalculatePrice(int CargoTypeId, double Weight)
         {
             using (var client = new HttpClient())
             {
@@ -56,7 +56,7 @@ namespace CargoSample2.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     var cargolist = await result.Content.ReadAsAsync<List<CargoType>>();
-                    CargoType cargoType = cargolist.Where(c => c.Id == id).FirstOrDefault();
+                    CargoType cargoType = cargolist.Where(c => c.Id == CargoTypeId).FirstOrDefault();
                     double price = 0;
                     if (Weight > double.Parse(cargoType.Weight))
                     {
@@ -68,12 +68,11 @@ namespace CargoSample2.Controllers
                     }
                     else
                     {
-                        price = double.Parse(cargoType.Price) * Weight ;
+                        price = double.Parse(cargoType.Price) * Weight;
 
                     }
                     ViewBag.Price = price;
                     return PartialView("_CalculatePrice");
-
 
 
 
